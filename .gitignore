@@ -9,6 +9,7 @@ erl_crash.dump
 
 # Static artifacts
 /node_modules
+/priv/static/js/app.js
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
