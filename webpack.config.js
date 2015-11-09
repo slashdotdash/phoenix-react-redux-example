@@ -1,11 +1,19 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var env = process.env.MIX_ENV || 'dev';
 var isProduction = (env === 'prod');
 
-var plugins = [new ExtractTextPlugin('app.css')];
+var plugins = [
+  new ExtractTextPlugin('app.css'),
+  new CopyWebpackPlugin([
+      { from: './web/static/assets' },
+      { from: './deps/phoenix_html/web/static/js/phoenix_html.js',
+        to: 'js/phoenix_html.js' }
+    ])
+];
 
 // This is necessary to get the sass @import's working
 var stylePathResolves = (
@@ -19,10 +27,18 @@ if (isProduction) {
 
 module.exports = {
   entry: './web/static/js/index.js',
+
   output: {
     path: './priv/static/js',
     filename: 'app.js'
   },
+
+  resolve: {
+    alias: {
+      phoenix: __dirname + '/deps/phoenix/web/static/js/phoenix.js'
+    }
+  },
+
   module: {
         loaders: [
             {
@@ -43,5 +59,6 @@ module.exports = {
 
         ]
   },
+
   plugins: plugins
 };

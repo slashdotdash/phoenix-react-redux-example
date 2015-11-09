@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import App from './containers/App';
 import todoApp from './reducers';
+import { configureChannel } from './channel';
 
 const loggerMiddleware = createLogger();
 
@@ -15,6 +16,8 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 const store = createStoreWithMiddleware(todoApp);
+
+configureChannel(store);
 
 render(
   <Provider store={store}>

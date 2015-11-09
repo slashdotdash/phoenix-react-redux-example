@@ -38,7 +38,10 @@ function addTodoFailure(text) {
 export function addTodo(text) {
   return dispatch => {
     dispatch(addTodoRequest(text));
+
+    // add todo, then dispatch success/failure
     dispatch(addTodoSuccess(text));
+    dispatch(addTodoFailure(text));
   };
 }
 
