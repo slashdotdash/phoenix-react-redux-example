@@ -1,10 +1,15 @@
 import { configureChannel } from './channel';
 
-let channel = configureChannel();
+let socket = configureChannel();
+let channel = socket.channel('todos');
 
 /*
  * action types
  */
+
+export const FETCH_TODOS_REQUEST = 'FETCH_TODOS_REQUEST';
+export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
+export const FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE';
 
 export const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
 export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';
@@ -27,6 +32,18 @@ export const VisibilityFilters = {
  * action creators
  */
 
+function fetchTodosRequest() {
+  return { type: FETCH_TODOS_REQUEST };
+}
+
+function fetchTodosSuccess(todos) {
+  return { type: FETCH_TODOS_SUCCESS, todos };
+}
+
+function fetchTodosFailure(error) {
+  return { type: FETCH_TODOS_FAILURE, error };
+}
+
 function addTodoRequest(text) {
   return { type: ADD_TODO_REQUEST, text };
 }
@@ -43,27 +60,36 @@ export function addTodo(text) {
   return dispatch => {
     dispatch(addTodoRequest(text));
 
-    let payload = { 
+    let payload = {
       text: text
     };
-    
-    console.log('adding todo');
 
-    // add todo, then dispatch success/failure
     channel.push('new:todo', payload)
       .receive('ok', response => {
         console.log('created TODO', response);
-        // dispatch(addTodoSuccess(text));
       })
       .receive('error', error => {
         console.error(error);
         dispatch(addTodoFailure(text, error));
-      });    
+      });
   };
 }
 
-export function subscribeTodos() {
+export function fetchTodos() {
   return dispatch => {
+    dispatch(fetchTodosRequest());
+
+    channel.join()
+      .receive('ok', messages => {
+        console.log('catching up', messages);
+        dispatch(fetchTodosSuccess(messages.todos));
+      })
+      .receive('error', reason => {
+        console.log('failed join', reason);
+        dispatch(fetchTodosFailure(reason));
+      })
+      .after(10000, () => console.log('Networking issue. Still waiting...'));
+
     channel.on('new:todo', msg => {
       console.log('new:todo', msg);
       dispatch(addTodoSuccess(msg.text));

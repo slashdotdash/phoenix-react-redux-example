@@ -2,7 +2,7 @@ defmodule PhoenixReactReduxExample.TodoSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "todos:*", PhoenixReactReduxExample.TodoChannel
+  channel "todos", PhoenixReactReduxExample.TodoChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -11,6 +11,7 @@ defmodule PhoenixReactReduxExample do
       supervisor(PhoenixReactReduxExample.Endpoint, []),
       # Here you could define other workers and supervisors as children
       # worker(PhoenixReactReduxExample.Worker, [arg1, arg2, arg3]),
+      worker(PhoenixReactReduxExample.TodoServer, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

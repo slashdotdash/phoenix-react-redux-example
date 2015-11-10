@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { subscribeTodos, addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { fetchTodos, addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
 import AddTodo from '../components/AddTodo';
 import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
@@ -9,12 +9,13 @@ class App extends Component {
   componentDidMount() {
     let { dispatch } = this.props;
 
-    dispatch(subscribeTodos());
+    dispatch(fetchTodos());
   }
 
   render() {
     // Injected by connect() call:
-    const { dispatch, visibleTodos, visibilityFilter } = this.props;
+    const { dispatch, visibleTodos, isLoading, visibilityFilter } = this.props;
+    
     return (
       <div>
         <AddTodo
@@ -23,6 +24,7 @@ class App extends Component {
           } />
         <TodoList
           todos={visibleTodos}
+          isLoading={isLoading}
           onTodoClick={index =>
             dispatch(completeTodo(index))
           } />
@@ -64,7 +66,8 @@ function selectTodos(todos, filter) {
 function select(state) {
   return {
     visibleTodos: selectTodos(state.todos, state.visibilityFilter),
-    visibilityFilter: state.visibilityFilter
+    visibilityFilter: state.visibilityFilter,
+    isLoading: state.isLoading
   };
 }
 
