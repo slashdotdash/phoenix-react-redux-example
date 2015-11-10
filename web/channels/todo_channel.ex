@@ -10,6 +10,6 @@ defmodule PhoenixReactReduxExample.TodoChannel do
       text: params["text"]
     }
 
-    {:reply, :ok, socket}
+    {:noreply, socket}
   end
 end
