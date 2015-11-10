@@ -1,8 +1,8 @@
-defmodule PhoenixReactReduxExample.UserSocket do
+defmodule PhoenixReactReduxExample.TodoSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", PhoenixReactReduxExample.RoomChannel
+  channel "todos:*", PhoenixReactReduxExample.TodoChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

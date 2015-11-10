@@ -1,3 +1,7 @@
+import { configureChannel } from './channel';
+
+let channel = configureChannel();
+
 /*
  * action types
  */
@@ -31,20 +35,41 @@ function addTodoSuccess(text) {
   return { type: ADD_TODO_SUCCESS, text };
 }
 
-function addTodoFailure(text) {
-  return { type: ADD_TODO_FAILURE, text };
+function addTodoFailure(text, error) {
+  return { type: ADD_TODO_FAILURE, text, error };
 }
 
 export function addTodo(text) {
   return dispatch => {
     dispatch(addTodoRequest(text));
 
+    let payload = { 
+      text: text
+    };
+    
+    console.log('adding todo');
+
     // add todo, then dispatch success/failure
-    dispatch(addTodoSuccess(text));
-    dispatch(addTodoFailure(text));
+    channel.push('new:todo', payload)
+      .receive('ok', response => {
+        console.log('created TODO', response);
+        // dispatch(addTodoSuccess(text));
+      })
+      .receive('error', error => {
+        console.error(error);
+        dispatch(addTodoFailure(text, error));
+      });    
   };
 }
 
+export function subscribeTodos() {
+  return dispatch => {
+    channel.on('new:todo', msg => {
+      console.log('new:todo', msg);
+      dispatch(addTodoSuccess(msg.text));
+    });
+  };
+}
 
 export function completeTodo(index) {
   return { type: COMPLETE_TODO, index };

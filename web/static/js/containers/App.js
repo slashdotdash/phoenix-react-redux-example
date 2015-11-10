@@ -1,11 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { subscribeTodos, addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
 import AddTodo from '../components/AddTodo';
 import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
 
 class App extends Component {
+  componentDidMount() {
+    let { dispatch } = this.props;
+
+    dispatch(subscribeTodos());
+  }
+
   render() {
     // Injected by connect() call:
     const { dispatch, visibleTodos, visibilityFilter } = this.props;
