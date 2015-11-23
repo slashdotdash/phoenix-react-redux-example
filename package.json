@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/slashdotdash/phoenix-react-redux-example#readme",
   "dependencies": {
+    "node-uuid": "^1.4.7",
     "react": "^0.14.2",
     "react-redux": "^4.0.0",
     "react-router": "^0.13.5",
     "redux": "^3.0.4",
     "redux-logger": "^2.0.4",
+    "redux-optimist": "0.0.2",
     "redux-thunk": "^1.0.0"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+import uuid from 'node-uuid';
 import { configureChannel } from './channel';
 
 let socket = configureChannel();
@@ -60,7 +61,10 @@ export function addTodo(text) {
   return dispatch => {
     dispatch(addTodoRequest(text));
 
+    let id = uuid.v4();
+
     let payload = {
+      id: id,
       text: text
     };
 

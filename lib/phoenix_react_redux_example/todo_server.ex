@@ -9,8 +9,9 @@ defmodule PhoenixReactReduxExample.TodoServer do
   end
 
   @doc "Add a new incomplete TODO"
-  def add(text) do
+  def add(id, text) do
     todo = %{
+      :id => id,
       :text => text,
       :completed => false
     }

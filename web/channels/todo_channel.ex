@@ -10,11 +10,13 @@ defmodule PhoenixReactReduxExample.TodoChannel do
   end
 
   def handle_in("new:todo", params, socket) do
+    id = params["id"]
     todo = params["text"]
 
-    TodoServer.add(todo)
+    TodoServer.add(id, todo)
 
     broadcast! socket, "new:todo", %{
+      id: id,
       text: todo
     }
 
