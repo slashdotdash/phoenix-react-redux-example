@@ -1,5 +1,7 @@
 # Phoenix + React + Redux Example
 
+[Integrating React and Redux with the Phoenix web framework](http://10consulting.com/2015/11/18/phoenix-react-redux-example/).
+
 Heavily inspired by @[ryanswapp](https://github.com/ryanswapp)'s [elixir-react-redux-example](https://github.com/ryanswapp/elixir-react-redux-example).
 
 Implementation of the basic TODO example from the [Redux documentation](http://rackt.org/redux/docs/basics/UsageWithReact.html). 
