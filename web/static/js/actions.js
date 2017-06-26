@@ -88,7 +88,7 @@ export function fetchTodos() {
         console.log('failed join', reason);
         dispatch(fetchTodosFailure(reason));
       })
-      .after(10000, () => console.log('Networking issue. Still waiting...'));
+    //.after(10000, () => console.log('Networking issue. Still waiting...'));
 
     channel.on('new:todo', msg => {
       console.log('new:todo', msg);
